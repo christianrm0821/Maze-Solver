@@ -1,14 +1,13 @@
 from Window import Window
 from Line import *
 from Point import *
+from Cell import *
+from Maze import *
 
 def main():
     win= Window(800,600)
-
-    my_line = Line(Point(0,0),Point(800,600))
-    my_line2 = Line(Point(0,0),Point(700,300))
-    win.draw_line(my_line,"red")
-    win.draw_line(my_line2,"red")
+    new_maze = Maze(5,5,10,15,50,50,win)
+    
 
 
 

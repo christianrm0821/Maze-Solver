@@ -12,7 +12,7 @@ class Window:
         self.running = False
         
 
-
+        
     def redraw(self):
         self.root.update_idletasks()
         self.root.update()
