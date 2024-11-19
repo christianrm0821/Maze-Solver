@@ -14,6 +14,7 @@ class Cell:
         self.y1=  None
         self.y2=  None
         self.win = window
+        self.visited = False
     
     def draw(self, x1, y1, x2, y2):
         if self.win == None:
@@ -30,12 +31,23 @@ class Cell:
         
         if self.has_top_wall == True:
             self.win.draw_line(top_line,"red")
+        else:
+            self.win.draw_line(top_line,"white")
+
         if self.has_bottom_wall == True:
             self.win.draw_line(bottom_line,"red")
+        else:
+            self.win.draw_line(bottom_line,"white")
+
         if self.has_left_wall == True:
             self.win.draw_line(left_line,"red")
+        else:
+            self.win.draw_line(left_line,"white")
+
         if self.has_right_wall == True:
             self.win.draw_line(right_line,"red")
+        else:
+            self.win.draw_line(right_line,"white")
 
 
     def draw_move(self, to_cell, undo = False):

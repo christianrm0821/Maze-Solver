@@ -5,6 +5,7 @@ from Window import *
 from Cell import *
 from Point import *
 import time
+import random
 
 class Maze:
     def __init__(self, x1,y1,num_rows,num_cols,cell_size_x,cell_size_y,win):
@@ -16,6 +17,7 @@ class Maze:
         self.cell_size_y = cell_size_y
         self.win = win
         self.cells =[]
+        self.seed = None
 
         self.create_cells()
 
@@ -58,7 +60,64 @@ class Maze:
 
     def animate(self):
         self.win.redraw()
-        time.sleep(.02)
+        time.sleep(.05)
+
+    def break_entrance_and_exit(self):
+        self.cells[0][0].has_top_wall = False
+        self.draw_cell(0,0)
+        self.cells[-1][-1].has_bottom_wall = False
+        self.draw_cell(-1,-1)
+
+    def break_walls_r(self,i,j):
+        print(f"{i}:i   {j}:j")
+        self.cells[i][j].visited = True
+        while True:
+            #visited = []
+
+            all_neighbors = []
+            top_neighbor = (i,j-1)
+            bottom_neighbor = (i,j+1)
+            left_neighbor = (i-1, j)
+            right_neighbor = (i+1, j)
+
+            all_neighbors.append(top_neighbor)
+            all_neighbors.append(bottom_neighbor)
+            all_neighbors.append(left_neighbor)
+            all_neighbors.append(right_neighbor)
+
+            neighbors=[]
+            for n in all_neighbors:
+                if n[0] < 0 or n[0] >= len(self.cells) or n[1] < 0 or n[1] >= len(self.cells[0]) or self.cells[n[0]][n[1]].visited == True:
+                    continue
+                else:
+                    neighbors.append(n)
+            
+            if len(neighbors)==0:
+                self.draw_cell(i,j)
+                return
+            else:
+                rand_num = random.randrange(0,len(neighbors))
+                new_curr_cell = neighbors[rand_num]
+
+                if new_curr_cell[0] > i:
+                    self.cells[i][j].has_right_wall = False
+
+                elif new_curr_cell[0] < i:
+                    self.cells[i][j].has_left_wall = False
+                
+                elif new_curr_cell[1] < j:
+                    self.cells[i][j].has_top_wall = False
+                
+                elif new_curr_cell[1] > j:
+                    self.cells[i][j].has_bottom_wall = False
+
+                self.break_walls_r(new_curr_cell[0], new_curr_cell[1])
+
+
+
+            
+
+
 
             
 
