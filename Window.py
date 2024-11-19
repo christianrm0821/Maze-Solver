@@ -10,9 +10,7 @@ class Window:
         self.canvas = Canvas(self.root, width=width, height=height, bg ="white")
         self.canvas.pack(fill=BOTH, expand=1)
         self.running = False
-        
 
-        
     def redraw(self):
         self.root.update_idletasks()
         self.root.update()

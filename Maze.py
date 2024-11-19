@@ -55,7 +55,6 @@ class Maze:
         x2 = self.cells[i][j].x2
         y2 = self.cells[i][j].y2
         self.cells[i][j].draw(x1,y1,x2,y2)
-        
         self.animate()
 
     def animate(self):
@@ -72,9 +71,8 @@ class Maze:
         print(f"{i}:i   {j}:j")
         self.cells[i][j].visited = True
         while True:
-            #visited = []
-
             all_neighbors = []
+
             top_neighbor = (i,j-1)
             bottom_neighbor = (i,j+1)
             left_neighbor = (i-1, j)
@@ -112,13 +110,8 @@ class Maze:
                     self.cells[i][j].has_bottom_wall = False
 
                 self.break_walls_r(new_curr_cell[0], new_curr_cell[1])
-
-
-
-            
-
-
-
-            
-
-
+    
+    def reset_cells_visited(self):
+        for row in range(len(self.cells)):
+            for col in range(len(self.cells[row])):
+                self.cells[row][col].visited = False
