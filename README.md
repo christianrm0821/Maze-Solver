@@ -1,20 +1,23 @@
-#Maze Generator and Solver
+# Maze Solver
 
-This Python project visualizes a maze and demonstrates how to solve it using Depth-First Search (DFS). Built with the tkinter library, it offers a simple graphical interface to showcase maze generation and solution.
+A Python project using `tkinter` to visualize and solve mazes using the Depth-First Search (DFS) algorithm. The application generates a random maze and solves it step-by-step, showing the solution path.
 
-Features
-Maze Generation: Displays a randomly generated maze on a tkinter canvas.
-Maze Solving: Implements DFS to find and visualize the solution path.
-Graphical Visualization: Uses tkinter for an interactive display
+---
 
-#How It Works
+## Features
 
-##Maze Generation
+- **Maze Visualization**: A grid-based maze is displayed on the screen.
+- **Depth-First Search**: The algorithm traverses the maze to find a solution.
+- **Interactive GUI**: Built with `tkinter`, making it lightweight and functional
+
+# How It Works
+
+## Maze Generation
 The program initializes a grid and generates a maze displayed as a visual representation using the Canvas widget from tkinter.
 ![image](https://github.com/user-attachments/assets/5f814f3b-57ca-402c-b792-4fe24f2cc3bd)
 
 
-##Maze Solving with DFS
+## Maze Solving with DFS
 Depth-First Search (DFS):
   Starts at the maze's entry point.
   Explores all paths recursively until reaching the exit.
