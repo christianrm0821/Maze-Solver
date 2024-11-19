@@ -18,6 +18,7 @@ class Maze:
         self.win = win
         self.cells =[]
         self.seed = None
+        self.finished = False
 
         self.create_cells()
 
@@ -65,10 +66,10 @@ class Maze:
         self.cells[0][0].has_top_wall = False
         self.draw_cell(0,0)
         self.cells[-1][-1].has_bottom_wall = False
+        self.cells[-1][-1].end_cell = True
         self.draw_cell(-1,-1)
 
     def break_walls_r(self,i,j):
-        print(f"{i}:i   {j}:j")
         self.cells[i][j].visited = True
         while True:
             all_neighbors = []
@@ -99,15 +100,19 @@ class Maze:
 
                 if new_curr_cell[0] > i:
                     self.cells[i][j].has_right_wall = False
+                    self.cells[i+1][j].has_left_wall = False
 
                 elif new_curr_cell[0] < i:
                     self.cells[i][j].has_left_wall = False
+                    self.cells[i-1][j].has_right_wall = False
                 
                 elif new_curr_cell[1] < j:
                     self.cells[i][j].has_top_wall = False
+                    self.cells[i][j-1].has_bottom_wall = False
                 
                 elif new_curr_cell[1] > j:
                     self.cells[i][j].has_bottom_wall = False
+                    self.cells[i][j+1].has_top_wall = False
 
                 self.break_walls_r(new_curr_cell[0], new_curr_cell[1])
     
@@ -115,3 +120,70 @@ class Maze:
         for row in range(len(self.cells)):
             for col in range(len(self.cells[row])):
                 self.cells[row][col].visited = False
+
+    def solve(self):
+        return self.solve_r(0,0)
+    
+    def solve_r(self,i,j):
+        self.animate()
+        curr = self.cells[i][j]
+        curr.visited = True
+        if curr.end_cell == True or self.finished ==True:
+            return True
+
+        all_neighbors = []
+
+        top_neighbor = (i,j-1)
+        bottom_neighbor = (i,j+1)
+        left_neighbor = (i-1, j)
+        right_neighbor = (i+1, j)
+
+        if self.cells[i][j].has_bottom_wall == False:
+            all_neighbors.append(bottom_neighbor)
+
+        if self.cells[i][j].has_right_wall == False:
+            all_neighbors.append(right_neighbor)
+
+        if self.cells[i][j].has_top_wall == False:
+            all_neighbors.append(top_neighbor)
+
+        if self.cells[i][j].has_left_wall == False:
+            all_neighbors.append(left_neighbor)
+        
+
+        neighbors=[]
+        for n in all_neighbors:
+            if n[0] < 0 or n[0] >= len(self.cells) or n[1] < 0 or n[1] >= len(self.cells[0]) or self.cells[n[0]][n[1]].visited == True:
+                continue
+            else:
+                neighbors.append(n)
+        
+        if len(neighbors)==0:
+            return
+        while len(neighbors) !=0:
+            n = neighbors.pop(0)
+            if self.cells[n[0]][n[1]].end_cell ==True:
+                self.finished = True
+                return
+            if self.finished == False:
+                self.draw_center_line(i,j,n[0],n[1])
+                self.solve_r(n[0],n[1])
+
+        
+    def draw_center_line(self,i,j,i2,j2):
+        #initial_cell = self.cells[i][j]
+        #next_cell = self.cells[i2][j2]
+        
+        x1 = (self.cells[i][j].x1 + self.cells[i][j].x2)/2
+        y1 = (self.cells[i][j].y1 + self.cells[i][j].y2)/2
+
+        x2 = (self.cells[i2][j2].x1 + self.cells[i2][j2].x2)/2
+        y2 = (self.cells[i2][j2].y1 + self.cells[i2][j2].y2)/2
+
+        p1 = Point(x1,y1)
+        p2 = Point(x2,y2)
+        
+        line = Line(p1, p2)
+
+        line.draw(self.win.canvas)
+        self.animate()

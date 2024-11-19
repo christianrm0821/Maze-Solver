@@ -10,6 +10,7 @@ def main():
     new_maze.break_entrance_and_exit()
     new_maze.break_walls_r(3,3)
     new_maze.reset_cells_visited()
+    new_maze.solve()
     win.wait_for_close()
 
 
